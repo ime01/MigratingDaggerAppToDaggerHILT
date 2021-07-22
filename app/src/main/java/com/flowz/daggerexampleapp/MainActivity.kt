@@ -2,6 +2,7 @@ package com.flowz.daggerexampleapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +10,9 @@ import com.flowz.daggerexampleapp.adapter.RecyclerViewAdapter
 import com.flowz.daggerexampleapp.databinding.ActivityMainBinding
 import com.flowz.daggerexampleapp.model.RecyclerList
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -21,12 +24,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         initRecyclerView()
         initViewModel()
     }
 
     private fun initViewModel() {
-     mainActivityViewModel =  ViewModelProvider(this).get(MainActivityViewModel::class.java)
+//     mainActivityViewModel =  ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+//        Removed Providers and Factory methods as we now use DaggerHilt
+        val mainActivityViewModel: MainActivityViewModel by viewModels()
 
         mainActivityViewModel.getLiveDataObserver().observe(this, object : Observer<RecyclerList>{
             override fun onChanged(t: RecyclerList?) {

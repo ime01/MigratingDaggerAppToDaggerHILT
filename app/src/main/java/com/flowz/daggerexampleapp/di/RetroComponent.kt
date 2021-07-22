@@ -4,9 +4,11 @@ import com.flowz.daggerexampleapp.MainActivityViewModel
 import dagger.Component
 import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [RetroModule::class])
-interface RetroComponent {
+//Now I can remove Component Classes as Hilt now does all this for us
 
-    fun inject (mainActivityViewModel: MainActivityViewModel)
-}
+//@Singleton
+//@Component(modules = [RetroModule::class])
+//interface RetroComponent {
+//
+//    fun inject (mainActivityViewModel: MainActivityViewModel)
+//}
