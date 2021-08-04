@@ -28,6 +28,7 @@ class RetroModule {
 //    val baseURL = "https://api.github.com/search/" // repositories?q=newyork"
     val baseURL = "https://api.admoni.net/"
 
+//  This provides The userSession DataStore Class with the Context it needs
     @Provides
     @Singleton
     fun provideUserSessionManager(@ApplicationContext context: Context): UserSessionManager{
