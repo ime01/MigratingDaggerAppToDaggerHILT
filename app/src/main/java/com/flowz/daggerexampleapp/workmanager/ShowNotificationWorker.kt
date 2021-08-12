@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.AudioAttributes
 import android.os.Build
@@ -48,7 +49,7 @@ class ShowNotificationWorker(context: Context, params: WorkerParameters) : Worke
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL)
             .setContentIntent(openPendingIntent)
             .setSmallIcon(R.drawable.ic_baseline_notifications_active_24)
-            .setContentTitle("WORK MANAGER NOTIFICATION")
+            .setContentTitle("REMINDER TO TEST V2 APP")
             .setContentText("Reminder to make a call on V2 app and document it")
 //            .setLargeIcon(R.drawable.ic_baseline_person_24)
 //            .setStyle(

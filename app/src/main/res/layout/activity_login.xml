@@ -8,12 +8,13 @@
 
     <Button
         android:id="@+id/periodic"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
         android:text="periodic work request"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/one_time" />
+        app:layout_constraintEnd_toEndOf="@+id/one_time"
+        app:layout_constraintStart_toStartOf="@+id/one_time"
+        app:layout_constraintTop_toBottomOf="@+id/one_time" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -23,23 +24,25 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.322" />
+        app:layout_constraintVertical_bias="0.354" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="No data yet"
-        android:textSize="16dp"
         android:textColor="@color/black"
+        android:textSize="16dp"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/progressBar1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/worker_text" />
+        app:layout_constraintTop_toBottomOf="@+id/periodic" />
 
     <TextView
         android:id="@+id/worker_text"
@@ -61,20 +64,21 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/textView1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/one_time" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
 
     <Button
         android:id="@+id/one_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="1 time request"
+        android:layout_marginEnd="16dp"
+        android:text="1 time Work request"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/worker_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
