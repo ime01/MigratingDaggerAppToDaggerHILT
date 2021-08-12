@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.work.*
 import com.flowz.daggerexampleapp.MainActivity
 import com.flowz.daggerexampleapp.MainActivityViewModel
 import com.flowz.daggerexampleapp.R
@@ -19,10 +20,12 @@ import com.flowz.daggerexampleapp.databinding.ActivityMainBinding
 import com.flowz.daggerexampleapp.loginandsavetoken.models.LoginRequest
 import com.flowz.daggerexampleapp.loginandsavetoken.preference.UserSessionManager
 import com.flowz.daggerexampleapp.util.SAVETOKENKEY
+import com.flowz.daggerexampleapp.workmanager.ShowNotificationWorker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,9 +46,22 @@ class LoginActivity : AppCompatActivity() {
         var oneSignalId = "f2afa2ac-a879-465f-af09-1aef39e1c52e"
         val progressBar = findViewById<ProgressBar>(R.id.progressBar1)
         val text = findViewById<TextView>(R.id.textView1)
+        val worker_text = findViewById<TextView>(R.id.worker_text)
         val button = findViewById<Button>(R.id.button1)
+        val one_time = findViewById<Button>(R.id.one_time)
+        val periodic = findViewById<Button>(R.id.periodic)
+
 
         val loginRequest = LoginRequest(username, password, deviceID, oneSignalId)
+
+        one_time.setOnClickListener {
+            setOneTimeWorkRequest()
+        }
+
+        periodic.setOnClickListener {
+            setPeriodicWorkRequest()
+        }
+
 
         button.setOnClickListener {
             loginViewModel.LoginUser(loginRequest)
@@ -85,9 +101,52 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun setPeriodicWorkRequest() {
+
+        val periodicWorkRequest = PeriodicWorkRequest.Builder(ShowNotificationWorker::class.java, 1, TimeUnit.HOURS)
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+
+    }
+
+    private fun setOneTimeWorkRequest() {
+        val worker_text = findViewById<TextView>(R.id.worker_text)
+
+        val myWorkManager = WorkManager.getInstance(applicationContext)
+
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val tellMeTimeWorkRequet = OneTimeWorkRequest.Builder(ShowNotificationWorker::class.java)
+            .setConstraints(constraints)
+            .setInitialDelay(15, TimeUnit.MINUTES)
+            .addTag(TIME_WORKER_TAG)
+            .build()
+
+        myWorkManager.enqueue(tellMeTimeWorkRequet)
+
+        myWorkManager.getWorkInfoByIdLiveData(tellMeTimeWorkRequet.id)
+            .observe(this, Observer {
+               worker_text.text = it.state.name
+
+                if (it.state.isFinished){
+                    Toast.makeText(applicationContext, "Work is Completed", Toast.LENGTH_LONG).show()
+                }
+            })
+
+
+    }
+
     private fun navMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    companion object{
+        val TIME_WORKER_TAG = "TIME WORK REQUEST"
     }
 }
