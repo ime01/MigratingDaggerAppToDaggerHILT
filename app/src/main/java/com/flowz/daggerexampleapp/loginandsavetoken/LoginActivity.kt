@@ -27,10 +27,12 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
+    private lateinit var  myWorkManager: WorkManager
 
 //    @Inject
 //    lateinit var userSessionManager: UserSessionManager
@@ -50,6 +52,11 @@ class LoginActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.button1)
         val one_time = findViewById<Button>(R.id.one_time)
         val periodic = findViewById<Button>(R.id.periodic)
+        val cancelone = findViewById<Button>(R.id.cancel1)
+        val cancelPeriodic = findViewById<Button>(R.id.cancel_periodic)
+
+
+        myWorkManager = WorkManager.getInstance(applicationContext)
 
 
         val loginRequest = LoginRequest(username, password, deviceID, oneSignalId)
@@ -60,6 +67,17 @@ class LoginActivity : AppCompatActivity() {
 
         periodic.setOnClickListener {
             setPeriodicWorkRequest()
+        }
+
+        cancelone.setOnClickListener {
+            myWorkManager.cancelAllWorkByTag(TIME_WORKER_TAG)
+            Log.i("ONETIME", "ONETIME WORK REQUEST TERMINATED")
+        }
+
+
+        cancelPeriodic.setOnClickListener {
+           myWorkManager.cancelAllWorkByTag(PERIODIC_WORKER_TAG)
+            Log.i("PERIODIC", "PERIODIC WORK REQUEST TERMINATED")
         }
 
 
@@ -104,16 +122,19 @@ class LoginActivity : AppCompatActivity() {
     private fun setPeriodicWorkRequest() {
 
         val periodicWorkRequest = PeriodicWorkRequest.Builder(ShowNotificationWorker::class.java, 1, TimeUnit.HOURS)
+            .addTag(PERIODIC_WORKER_TAG)
             .build()
 
-        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+//        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
+
+        myWorkManager.enqueue(periodicWorkRequest)
 
     }
 
     private fun setOneTimeWorkRequest() {
         val worker_text = findViewById<TextView>(R.id.worker_text)
 
-        val myWorkManager = WorkManager.getInstance(applicationContext)
+//        val myWorkManager = WorkManager.getInstance(applicationContext)
 
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
@@ -122,7 +143,7 @@ class LoginActivity : AppCompatActivity() {
 
         val tellMeTimeWorkRequet = OneTimeWorkRequest.Builder(ShowNotificationWorker::class.java)
             .setConstraints(constraints)
-            .setInitialDelay(15, TimeUnit.MINUTES)
+            .setInitialDelay(1, TimeUnit.MINUTES)
             .addTag(TIME_WORKER_TAG)
             .build()
 
@@ -140,6 +161,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+
     private fun navMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -148,5 +170,6 @@ class LoginActivity : AppCompatActivity() {
 
     companion object{
         val TIME_WORKER_TAG = "TIME WORK REQUEST"
+        val PERIODIC_WORKER_TAG = "PERIODIC WORK REQUEST"
     }
 }

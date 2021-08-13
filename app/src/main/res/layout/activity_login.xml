@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/periodic" />
+        app:layout_constraintTop_toBottomOf="@+id/cancel1" />
 
     <TextView
         android:id="@+id/worker_text"
@@ -51,7 +51,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text=""
+        android:text="worker text"
         android:textColor="@color/design_default_color_error"
         android:textSize="16dp"
         android:textStyle="bold|italic"
@@ -81,4 +81,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/worker_text" />
+
+    <Button
+        android:id="@+id/cancel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Cancel 1time"
+        app:layout_constraintStart_toStartOf="@+id/periodic"
+        app:layout_constraintTop_toBottomOf="@+id/periodic" />
+
+    <Button
+        android:id="@+id/cancel_periodic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Cancel Periodic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/periodic" />
 </androidx.constraintlayout.widget.ConstraintLayout>
