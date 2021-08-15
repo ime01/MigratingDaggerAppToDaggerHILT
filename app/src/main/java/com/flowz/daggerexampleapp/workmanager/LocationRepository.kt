@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 class LocationRepository(context : Context) {
 
     val context:Context = context
+    private var  userLocation = ""
 
      fun fetcMyLocation() {
 
@@ -30,7 +31,10 @@ class LocationRepository(context : Context) {
                 .addOnSuccessListener {location: Location?->
                     if (location != null ){
                         Log.e("USERLOCATION", "User Location is ${location}")
-                        showNotification(location.toString())
+                        val lat = location.latitude
+                        val long = location.longitude
+                        userLocation = "$lat : $long "
+                        showNotification(userLocation)
                     }
                 }
                 .addOnFailureListener {
