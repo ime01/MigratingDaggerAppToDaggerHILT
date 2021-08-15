@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DaggerExampleApp</string>
+    <string name="map_key">AIzaSyA2JAmazOay4fV-wCWAZE8d2xjTy31BR-4</string>
+    <string name="enable_gps">Enable Gps</string>
+    <string name="required_for_this_app">Gps is required for this app functionality</string>
+    <string name="enable_now">Enable now</string>
 </resources>

@@ -17,8 +17,7 @@ import javax.inject.Inject
 enum class  LoginStatus {LOADING, ERROR, DONE}
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private var loginRepository: LoginRepository,
-                                         private val userSessionManager: UserSessionManager): ViewModel() {
+class LoginViewModel @Inject constructor(private var loginRepository: LoginRepository, private val userSessionManager: UserSessionManager): ViewModel() {
 
     val loginConnectionStatus = MutableLiveData<LoginStatus>()
     val loginResponse = MutableLiveData<LoginResponse>()
