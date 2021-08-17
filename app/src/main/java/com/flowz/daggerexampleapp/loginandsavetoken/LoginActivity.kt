@@ -109,12 +109,13 @@ class LoginActivity : AppCompatActivity() {
         button.setOnClickListener {
             loginViewModel.LoginUser(loginRequest)
 
-            loginViewModel.loginConnectionStatus.observe(this@LoginActivity, Observer {state->
+//            loginViewModel.loginConnectionStatus.observe(this@LoginActivity, Observer {state->
+            loginViewModel.apiResponse.observe(this@LoginActivity, Observer {state->
 
                 state?.also {
-                    when(it){
+                    when(it.status){
                         LoginStatus.ERROR->{
-                            plainText.setText("Error in logging you in")
+                            plainText.setText(it.toString())
 
 //                    Snackbar.make(text, "Error in Logging in").show()
                         }
@@ -124,17 +125,22 @@ class LoginActivity : AppCompatActivity() {
                         LoginStatus.DONE->{
                             progressBar.visibility = View.GONE
                             Log.e("done", "Request worked")
-                            loginViewModel.loginResponse.observe(this@LoginActivity, Observer {it
-                                val res = it.user
-                                plainText.text = res.userToken
+//                            loginViewModel.loginResponse.observe(this@LoginActivity, Observer {it
+                                val res = it.data
+                                plainText.text = res?.userToken
                                 Log.e("test", "${res.toString()}")
+
                                 lifecycleScope.launch {
-                                    loginViewModel.saveUserToken( res.userToken!!)
+                                    res?.user?.userToken?.let { it1 ->
+                                        loginViewModel.saveUserToken(
+                                            it1
+                                        )
+                                    }
                                 }
                                 navMainActivity()
 
 //                              Snackbar.make(button, "${res.toString()}").show()
-                            })
+//                            })
                         }
                     }
                 }
