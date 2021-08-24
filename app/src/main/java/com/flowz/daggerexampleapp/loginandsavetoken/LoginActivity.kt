@@ -108,6 +108,7 @@ class LoginActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             loginViewModel.LoginUser(loginRequest)
+//            navMainActivity()
 
 //            loginViewModel.loginConnectionStatus.observe(this@LoginActivity, Observer {state->
             loginViewModel.apiResponse.observe(this@LoginActivity, Observer {state->
@@ -137,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
                                         )
                                     }
                                 }
-                                navMainActivity()
+//                                navMainActivity()
 
 //                              Snackbar.make(button, "${res.toString()}").show()
 //                            })
@@ -146,7 +147,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             })
-//         navMainActivity()
+         navMainActivity()
         }
     }
 
